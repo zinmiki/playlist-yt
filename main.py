@@ -31,12 +31,16 @@ def load_config() -> dict:
 
 def show_intro() -> bool:
     print(
-        "Witaj w programie do pobierania playlist!\n\n"
-        "• Wybierz playlistę lub dodaj nową, podając jej nazwę i URL.\n"
-        "• „Pobierz” pobiera filmy z playlisty, a „Uaktualnij” pobiera nowe.\n"
-        "• „Lista” pokazuje zapisane utwory.\n"
-        "• Możesz usunąć same pliki albo playlistę razem z jej plikami.\n"
-        "• Katalog pobierania ustawisz w config.json w polu „output_folder”."
+        "==============================\n"
+        "        PLAYLIST + \n"
+        "==============================\n"
+        "Witaj w programie do pobieranie playlist z youtube!\n\n"
+
+        "• Możesz tutaj pobierać dowolną playlistę wystarczy ją wybrać lub utworzyć nową wprowadzając URL z yt (Ważne: playlista musi być publiczna lub z dostempem na link. Nie może być prywatna bo nie zadziała)\n"
+        "• Po wybraniu playlisty możesz pobrać/zaktualizować zawartość, wyświetlić listę lub usunąć\n"
+        "• Jeśli zmienisz online zawartość playlisty (np: dodasz nowe pozycje) to musisz wejść tutaj i zaktualizować\n"
+        "• Jeśli aktualizowanie nie działa lub chcesz pobrać wszystko od nowa, wybierz Usuń -> usuń tylko pliki i pobierz jeszcze raz\n"
+        "• Ważne: Ten program służy wyłącznie do pobierania playlist, czyli nie możesz tutaj odsłuchać (użyj np: programu VLC, lub innego przez ciebie preferowanego).\n"
     )
     return questionary.select(
         "Naciśnij „Dalej”, aby rozpocząć:",
@@ -264,6 +268,8 @@ def handle_playlist(config: dict, playlist: dict) -> None:
             ).ask()
             if confirmed:
                 remove_playlist_files(config, playlist)
+                playlist["entries"] = []
+                save_config(config)
                 print("Usunięto pliki playlisty.")
             return
 
@@ -276,6 +282,11 @@ def handle_playlist(config: dict, playlist: dict) -> None:
 
 
 def main() -> None:
+    print(
+        "==============================\n"
+        "        PLAYLIST + \n"
+        "==============================\n"
+    )
     first_run = not CONFIG_PATH.exists()
     config = load_config()
     if first_run:
