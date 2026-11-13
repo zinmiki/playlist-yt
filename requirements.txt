@@ -1,0 +1,3 @@
+questionary
+yt-dlp
+requests
