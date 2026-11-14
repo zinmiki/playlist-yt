@@ -64,6 +64,9 @@ def download(url: str, items: str, output_folder: str = "static") -> None:
         "progress_hooks": [progress_hook],
     }
 
+    if os.path.isfile("cookies.txt"):
+        options["cookiefile"] = "cookies.txt"
+
     with yt_dlp.YoutubeDL(options) as ydl:
         info = ydl.extract_info(url, download=True)
 

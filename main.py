@@ -42,6 +42,7 @@ def show_intro() -> bool:
         "• Jeśli zmienisz online zawartość playlisty (np: dodasz nowe pozycje) to musisz wejść tutaj i zaktualizować\n"
         "• Jeśli aktualizowanie nie działa lub chcesz pobrać wszystko od nowa, wybierz Usuń -> usuń tylko pliki i pobierz jeszcze raz\n"
         "• Ważne: Ten program służy wyłącznie do pobierania playlist, czyli nie możesz tutaj odsłuchać (użyj np: programu VLC, lub innego przez ciebie preferowanego).\n"
+        "• Jeśli chcesz używać cookies w tym programie utwórz plik cookies.txt w tym folderze.\n"
     )
     return questionary.path(
         "Wybierz docelową ścierzkę plików audio:",
