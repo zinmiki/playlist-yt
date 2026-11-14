@@ -3,6 +3,7 @@ from pathlib import Path
 import re
 import shutil
 import os
+from urllib.parse import parse_qs, urlsplit
 import questionary
 import utils
 
@@ -54,6 +55,25 @@ def save_config(config: dict) -> None:
         config_file.write("\n")
 
 
+def is_valid_playlist_url(url: str) -> bool:
+    try:
+        parsed_url = urlsplit(url)
+        playlist_id = parse_qs(parsed_url.query).get("list", [""])[0].strip()
+        port = parsed_url.port
+    except ValueError:
+        return False
+
+    return (
+        parsed_url.scheme == "https"
+        and parsed_url.hostname in {"youtube.com", "www.youtube.com"}
+        and parsed_url.username is None
+        and parsed_url.password is None
+        and port is None
+        and parsed_url.path == "/playlist"
+        and bool(playlist_id)
+    )
+
+
 def add_playlist(config: dict) -> None:
     name = questionary.text("Nazwa playlisty:").ask()
     if name is None:
@@ -73,7 +93,10 @@ def add_playlist(config: dict) -> None:
         print("Nazwa playlisty koliduje z nazwą folderu innej playlisty.")
         return
 
-    url = questionary.text("URL playlisty:").ask()
+    url = questionary.text(
+        "URL playlisty (np. https://youtube.com/playlist?list=...):",
+        validate=lambda value: is_valid_playlist_url(value.strip()),
+    ).ask()
     if url is None:
         return
     url = url.strip()
