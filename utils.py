@@ -55,7 +55,9 @@ def download(url: str, items: str, output_folder: str = "static") -> None:
     os.makedirs(folder, exist_ok=True)
 
     options = {
-        "format": "bestaudio/best",
+        "format": "bestaudio/best/best",
+        "listformats": True,
+        "verbose": True,
         "outtmpl": os.path.join(folder, "%(playlist_index)s - %(title)s.%(ext)s"),
         "playlist_items": items,
         "ignoreerrors": True,
