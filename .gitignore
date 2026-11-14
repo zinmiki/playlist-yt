@@ -3,3 +3,4 @@ static/
 config.json
 update.py
 __pycache__
+cookies.txt
