@@ -55,13 +55,22 @@ def download(url: str, items: str, output_folder: str = "static") -> None:
     os.makedirs(folder, exist_ok=True)
 
     options = {
-        "format": "bestaudio",
+        "format": "bestaudio/best",
         "outtmpl": os.path.join(folder, "%(playlist_index)s - %(title)s.%(ext)s"),
         "playlist_items": items,
         "ignoreerrors": True,
         "quiet": True,
+        "extractor_args": {
+            "youtube": {
+                "player_client": ["default", "web_embedded"]
+            }
+        },
         "no_warnings": True,
         "progress_hooks": [progress_hook],
+        # Rozwiązywanie wyzwań JavaScript
+        "js_runtimes": {
+            "deno": {}
+        },
     }
 
     if os.path.isfile("cookies.txt"):
